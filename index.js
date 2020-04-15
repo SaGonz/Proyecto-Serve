@@ -33,10 +33,10 @@ if(app.get('env') === 'development') {
 dbDebugger('conectado a la Base de Datos, debuggeando')
 
 const conexion = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
+    host: dbConfig.HOST,
+    user: dbConfig.USER,
+    password: dbConfig.PASSWORD,
+    database: dbConfig.DB
 })
 
 conexion.connect(err => {
