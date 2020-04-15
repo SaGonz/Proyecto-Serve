@@ -1,5 +1,6 @@
 const startupDebugger = require('debug')('app:startup')
 const dbDebugger = require('debug')('app:db')
+const dbConfig = require("../config/db.config.js");
 //Para guardar secretos
 const dotenv = require('dotenv')
 dotenv.config()
@@ -12,6 +13,7 @@ const config = require('config')
 const cors = require('cors')
 const mysql = require('mysql')
 const path = require('path');
+
 
 //El objeto Express representa la aplicación
 const app = express()
