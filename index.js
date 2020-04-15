@@ -1,12 +1,8 @@
 const startupDebugger = require('debug')('app:startup')
 const dbDebugger = require('debug')('app:db')
-const dbConfig = require("./config/dbConfig.js");
-//Para guardar secretos
 const dotenv = require('dotenv')
 dotenv.config()
-//crear servidor
 const express = require('express')
-//Para hacer log de las peticiones del servidor
 const morgan = require('morgan')
 const helmet = require('helmet')
 const config = require('config')
@@ -14,8 +10,6 @@ const cors = require('cors')
 const mysql = require('mysql')
 const path = require('path');
 
-
-//El objeto Express representa la aplicación
 const app = express()
 app.use(cors())
 app.use(helmet())
@@ -33,10 +27,10 @@ if(app.get('env') === 'development') {
 dbDebugger('conectado a la Base de Datos, debuggeando')
 
 const conexion = mysql.createConnection({
-    host: dbConfig.HOST,
-    user: dbConfig.USER,
-    password: dbConfig.PASSWORD,
-    database: dbConfig.DB
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
 })
 
 conexion.connect(err => {
