@@ -1,6 +1,6 @@
 const startupDebugger = require('debug')('app:startup')
 const dbDebugger = require('debug')('app:db')
-const dbConfig = require("../config/dbConfig.js");
+const dbConfig = require("./config/dbConfig.js");
 //Para guardar secretos
 const dotenv = require('dotenv')
 dotenv.config()
