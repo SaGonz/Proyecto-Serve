@@ -9,7 +9,8 @@ const config = require('config')
 const cors = require('cors')
 const mysql = require('mysql')
 const path = require('path');
-
+const PORT = process.env.PORT || process.env.S_PORT;
+      
 const app = express()
 app.use(cors())
 app.use(helmet())
@@ -124,8 +125,8 @@ app.get('/borrar', (req, res, next) => {
     next();
 })
 
-app.listen(process.env.S_PORT, () => {
-    console.log('Server listening on port',process.env.S_PORT,'host',process.env.DB_HOST)
+app.listen(PORT, () => {
+    console.log('Server listening on port',PORT,'host',process.env.DB_HOST)
 })
 
 module.exports = app;
