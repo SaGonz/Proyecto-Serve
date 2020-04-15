@@ -132,3 +132,4 @@ app.listen(process.env.S_PORT, () => {
     console.log('Server listening on port',process.env.S_PORT,'host',process.env.DB_HOST)
 })
 
+module.exports = app;
