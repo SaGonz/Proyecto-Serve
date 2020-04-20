@@ -3,9 +3,6 @@ const dbDebugger = require('debug')('app:db')
 const dotenv = require('dotenv')
 dotenv.config()
 const express = require('express')
-const morgan = require('morgan')
-const helmet = require('helmet')
-const config = require('config')
 const cors = require('cors')
 const mysql = require('mysql')
 const path = require('path');
@@ -13,19 +10,9 @@ const PORT = process.env.PORT || process.env.S_PORT;
       
 const app = express()
 app.use(cors())
-app.use(helmet())
 
 //Serve React
 app.use(express.static(path.join(__dirname, 'build')));
-
-//Configuración
-console.log('Nombre de la aplicación: '+config.get('name'))
-
-if(app.get('env') === 'development') {
-    app.use(morgan('dev'))
-    startupDebugger('morgan activado')
-}
-dbDebugger('conectado a la Base de Datos, debuggeando')
 
 const conexion = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -41,7 +28,6 @@ conexion.connect(err => {
         console.log('conexion correcta a bbdd')
     }
 })
-
 
 //Construir archivos de React desde Node 
 app.get('/app*', (req, res) => {
@@ -61,7 +47,6 @@ app.get('/tareas', (req, res, next) => {
     })
 })
 
-//Ruta para ver las tareas completadas
 app.get('/r-completadas', (req,res) => {
     const SELECCIONAR_TAREAS_COMPLETADAS = `SELECT * FROM tarea WHERE id_estado="completada"`
     conexion.query(SELECCIONAR_TAREAS_COMPLETADAS, (err, result) =>{
@@ -75,7 +60,6 @@ app.get('/r-completadas', (req,res) => {
     })
 })
 
-//POST
 app.get('/llenar', (req, res) =>{
     console.log('so you want to write a task')
     const {titulo} = req.query
@@ -86,39 +70,30 @@ app.get('/llenar', (req, res) =>{
         if(err) {
             return res.send(err)
         } else {
-            console.log("la tarea se ha agregado con exito a la bbdd")
             return res.send("Te has propuesto una nueva tarea")
         }
     }
 })
 
-//POST para completadas
 app.get('/completar', (req, res) => {
-    console.log('----------so you want to check off a task------------')
     const {id_tarea} = req.query
     const COMPLETAR_TAREA = `UPDATE tarea SET id_estado="completada",fecha_finalizacion=NOW() WHERE id_tarea = ${id_tarea}`
     conexion.query(COMPLETAR_TAREA, (err, result) => {
         if(err) {
-            console.log('------',err,'----------')
             return res.send(err)
         } else {
-            console.log('----------has completado una tarea----------')
             return res.send()
         }
     })
 })
 
-//DELETE
 app.get('/borrar', (req, res, next) => {
-    console.log('----------so you want to delete off a task------------')
     const {id_tarea} = req.query
     const BORRAR_TAREA = `DELETE FROM tarea WHERE id_tarea = ${id_tarea}`
     conexion.query(BORRAR_TAREA), (err, result) => {
         if(err) {
-            console.log('---------',err,'--------')
             return res.send(err)
         } else {
-            console.log('has borrado una tarea')
             return res.send("Has borrado una tarea")
         }
     }
