@@ -30,7 +30,7 @@ conexion.connect(err => {
 })
 
 //Construir archivos de React desde Node 
-app.get('/app*', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
