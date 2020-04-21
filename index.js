@@ -41,7 +41,7 @@ app.get('/app*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.get('/tareas', (req, res, next) => {
+app.get('/api/tareas', (req, res, next) => {
     const SELECCIONAR_TAREAS = `SELECT * FROM tarea WHERE id_estado="en proceso";`
     conexion.query(SELECCIONAR_TAREAS, (err, result) =>{
         if(err) {
@@ -54,7 +54,7 @@ app.get('/tareas', (req, res, next) => {
     })
 })
 
-app.get('/r-completadas', (req,res) => {
+app.get('/api/r-completadas', (req,res) => {
     const SELECCIONAR_TAREAS_COMPLETADAS = `SELECT * FROM tarea WHERE id_estado="completada"`
     conexion.query(SELECCIONAR_TAREAS_COMPLETADAS, (err, result) =>{
         if(err) {
