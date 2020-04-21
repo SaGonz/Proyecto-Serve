@@ -21,13 +21,20 @@ const conexion = mysql.createConnection({
     database: process.env.DB_NAME
 })
 
-conexion.connect(err => {
-    if(err) {
-        return err;
+handleDesconexion = () => {
+    conexion.connect(err => {
+    if (err) {
+        console.log('error al conectarse a la bbdd: ',err,
+        ' codigo ',err.code,' numero ',err.errno,
+        ' - query SQL: ',err.sql,', error SQL:',err.sqlMessage)
+        setTimeout(handleDesconexion,2000)
     } else {
-        console.log('conexion correcta a bbdd')
+        console.log('reconexion correcta a bbdd')
     }
-})
+    })
+}
+
+handleDesconexion();
 
 //Construir archivos de React desde Node 
 app.get('/app*', (req, res) => {
