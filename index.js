@@ -11,12 +11,10 @@ const PORT = process.env.PORT || process.env.S_PORT;
 const app = express()
 app.use(cors())
 
-app.use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/cool', (req, res) => res.send(cool()))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+app.set('views', path.join(__dirname, 'views'))
+   .set('view engine', 'ejs')
+   .get('/', (req, res) => res.render('pages/index'))
+
 //Serve React
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -37,7 +35,7 @@ const pool = mysql.createPool ({
 
 pool.getConnection(function(err, conexion) {
     if (err) throw err;
-    conexion.query('SELECT * FROM tarea', function (error, results, fields) {
+    conexion.query('', function (error, results, fields) {
       conexion.release();
       if (error) throw error;
       console.log(results,fields)
