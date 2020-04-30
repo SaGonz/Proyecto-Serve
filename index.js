@@ -21,6 +21,23 @@ const conexion = mysql.createConnection({
     database: process.env.DB_NAME
 })
 
+const pool = mysql.createPool ({
+    connectionLimit: 10,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
+})
+
+pool.getConnection(function(err, conexion) {
+    if (err) throw err;
+    conexion.query('SELECT something FROM sometable', function (error, results, fields) {
+      conexion.release();
+      if (error) throw error;
+      console.log(results,fields)
+    });
+});
+
 handleDesconexion = () => {
     conexion.connect(err => {
     if (err) {
