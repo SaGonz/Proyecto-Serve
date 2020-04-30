@@ -31,7 +31,7 @@ const pool = mysql.createPool ({
 
 pool.getConnection(function(err, conexion) {
     if (err) throw err;
-    conexion.query('SELECT something FROM sometable', function (error, results, fields) {
+    conexion.query('SELECT * FROM tarea', function (error, results, fields) {
       conexion.release();
       if (error) throw error;
       console.log(results,fields)
