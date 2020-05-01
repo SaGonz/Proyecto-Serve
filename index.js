@@ -43,9 +43,9 @@ pool.getConnection(function(err) {
     conexion.connect(function (error, results, fields) {
         conexion.release()
       if (error) {
-          throw error
+          callback(error)
       } else {
-        console.log(results,fields)
+        callback(null, results)
       }
     });
 });
