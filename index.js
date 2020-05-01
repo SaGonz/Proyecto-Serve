@@ -42,25 +42,6 @@ pool.getConnection(function(err) {
     });
 });
 
-pool.on('release', () => {
-    console.log('connection released ', conexion.threadId)
-})
-
-/*handleDesconexion = () => {
-    conexion.connect(err => {
-    if (err) {
-        console.log('error al conectarse a la bbdd: ',err,
-        ' codigo ',err.code,' numero ',err.errno,
-        ' - query SQL: ',err.sql,', error SQL:',err.sqlMessage)
-        setTimeout(handleDesconexion,2000)
-    } else {
-        console.log('reconexion correcta a bbdd')
-    }
-    })
-}*/
-
-//handleDesconexion();
-
 //Construir archivos de React desde Node 
 app.get('/app*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
@@ -136,5 +117,7 @@ app.get('/borrar', (req, res, next) => {
 app.listen(PORT, () => {
     console.log('Server listening on port',PORT,'host',process.env.DB_HOST)
 })
+
+pool.releaseConnection()
 
 module.exports = app;
