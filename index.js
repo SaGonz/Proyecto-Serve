@@ -36,10 +36,17 @@ const pool = mysql.createPool ({
 })
 
 pool.getConnection(function(err) {
-    if (err) throw err;
+    if (err) {
+        throw err
+    }
+
     conexion.connect(function (error, results, fields) {
-      if (error) throw error;
-      console.log(results,fields)
+        conexion.release()
+      if (error) {
+          throw error
+      } else {
+        console.log(results,fields)
+      }
     });
 });
 
@@ -118,7 +125,5 @@ app.get('/borrar', (req, res, next) => {
 app.listen(PORT, () => {
     console.log('Server listening on port',PORT,'host',process.env.DB_HOST)
 })
-
-//pool.releaseConnection()
 
 module.exports = app;
