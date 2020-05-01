@@ -26,14 +26,14 @@ const conexion = mysql.createConnection({
     database: process.env.DB_NAME
 })
 
-const pool = mysql.createPool ({
+/*const pool = mysql.createPool ({
     connectionLimit: 10,
     host: process.env.DB_HOST,
     port: process.env.S_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
-})
+})*/
 
 /*pool.getConnection(function(err) {
     if (err) throw err;
