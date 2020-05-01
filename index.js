@@ -34,7 +34,7 @@ const pool = mysql.createPool ({
     database: process.env.DB_NAME
 })
 
-pool.getConnection(function(err, conexion) {
+pool.getConnection(function(err) {
     if (err) throw err;
     conexion.connect(function (error, results, fields) {
       conexion.release();
