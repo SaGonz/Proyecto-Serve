@@ -29,18 +29,19 @@ const conexion = mysql.createConnection({
 const pool = mysql.createPool ({
     connectionLimit: 10,
     host: process.env.DB_HOST,
+    port: process.env.S_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
 })
 
-pool.getConnection(function(err) {
+/*pool.getConnection(function(err) {
     if (err) throw err;
     conexion.connect(function (error, results, fields) {
       if (error) throw error;
       console.log(results,fields)
     });
-});
+});*/
 
 //Construir archivos de React desde Node 
 app.get('/app*', (req, res) => {
