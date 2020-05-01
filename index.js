@@ -56,7 +56,7 @@ pool.getConnection(function(err, conexion) {
     })
 }*/
 
-handleDesconexion();
+//handleDesconexion();
 
 //Construir archivos de React desde Node 
 app.get('/app*', (req, res) => {
