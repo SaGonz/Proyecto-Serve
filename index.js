@@ -46,8 +46,6 @@ pool.on('release', () => {
     console.log('connection released ', conexion.threadId)
 })
 
-pool.end()
-
 /*handleDesconexion = () => {
     conexion.connect(err => {
     if (err) {
