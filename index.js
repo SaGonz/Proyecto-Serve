@@ -118,6 +118,6 @@ app.listen(PORT, () => {
     console.log('Server listening on port',PORT,'host',process.env.DB_HOST)
 })
 
-pool.releaseConnection()
+//pool.releaseConnection()
 
 module.exports = app;
