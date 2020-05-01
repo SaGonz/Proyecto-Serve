@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 const conexion = mysql.createConnection({
     host: process.env.DB_HOST,
+    port: process.env.S_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
@@ -42,7 +43,7 @@ pool.getConnection(function(err, conexion) {
     });
 });
 
-handleDesconexion = () => {
+/*handleDesconexion = () => {
     conexion.connect(err => {
     if (err) {
         console.log('error al conectarse a la bbdd: ',err,
@@ -53,7 +54,7 @@ handleDesconexion = () => {
         console.log('reconexion correcta a bbdd')
     }
     })
-}
+}*/
 
 handleDesconexion();
 
