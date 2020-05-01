@@ -37,11 +37,16 @@ const pool = mysql.createPool ({
 pool.getConnection(function(err) {
     if (err) throw err;
     conexion.connect(function (error, results, fields) {
-      conexion.release();
       if (error) throw error;
       console.log(results,fields)
     });
 });
+
+pool.on('release', () => {
+    console.log('connection released ', conexion.threadId)
+})
+
+pool.end()
 
 /*handleDesconexion = () => {
     conexion.connect(err => {
