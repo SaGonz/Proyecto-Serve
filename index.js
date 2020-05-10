@@ -13,14 +13,14 @@ app.use(cors())
 
 app.set('views', path.join(__dirname, 'views'))
    .set('view engine', 'ejs')
-   .get('/', (req, res) => res.render('pages/index'))
+//    .get('/', (req, res) => res.render('build/index'))
 
 //Serve React
 app.use(express.static(path.join(__dirname, 'build')));
 
 const conexion = mysql.createConnection({
     host: process.env.DB_HOST,
-    port: process.env.S_PORT,
+    port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
@@ -29,25 +29,17 @@ const conexion = mysql.createConnection({
 const pool = mysql.createPool ({
     connectionLimit: 10,
     host: process.env.DB_HOST,
-    port: process.env.S_PORT,
+    port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
 })
 
-pool.getConnection(function(err) {
+pool.getConnection(function(err, conexion) {
     if (err) {
         throw err
     }
-
-    conexion.connect(function (error, results, fields) {
-        conexion.release()
-      if (error) {
-          callback(error)
-      } else {
-        callback(null, results)
-      }
-    });
+    conexion.release()
 });
 
 //Construir archivos de React desde Node 
