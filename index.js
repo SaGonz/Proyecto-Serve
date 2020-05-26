@@ -55,7 +55,6 @@ pool.getConnection(function(err, conexion) {
     conexion.release()
 });
 
-//Construir archivos de React desde Node 
 app.get('/app*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
