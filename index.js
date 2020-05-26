@@ -11,12 +11,24 @@ const PORT = process.env.PORT || process.env.S_PORT;
 const app = express()
 app.use(cors())
 
-app.set('views', path.join(__dirname, 'views'))
-   .set('view engine', 'ejs')
+// //Configurar permisos de CORS
+const whitelist = ['127.0.0.1:3307','127.0.0.1:33017','localhost:3000','localhost:4000','https://lista-para-hacer.herokuapp.com/']
+const corsOptions  = {
+    origin: function(origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+          callback(null, true)
+        } else {
+          callback(new Error('Este recurso no está permitido por CORS'))
+        }
+    }
+}
+
+app.options('*', cors())
+    .use(express.static(path.join(__dirname, 'build')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
 //    .get('/', (req, res) => res.render('build/index'))
 
-//Serve React
-app.use(express.static(path.join(__dirname, 'build')));
 
 const conexion = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -27,7 +39,7 @@ const conexion = mysql.createConnection({
 })
 
 const pool = mysql.createPool ({
-    connectionLimit: 100,
+    connectionLimit: 1000,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
@@ -37,6 +49,7 @@ const pool = mysql.createPool ({
 
 pool.getConnection(function(err, conexion) {
     if (err) {
+        console.log('error de pool -----------',err)
         throw err
     }
     conexion.release()
@@ -60,7 +73,7 @@ app.get('/api/tareas', (req, res, next) => {
     })
 })
 
-app.get('/api/r-completadas', (req,res) => {
+app.get('/api/r-completadas',  (req,res) => {
     const SELECCIONAR_TAREAS_COMPLETADAS = `SELECT * FROM tarea WHERE id_estado="completada"`
     conexion.query(SELECCIONAR_TAREAS_COMPLETADAS, (err, result) =>{
         if(err) {
@@ -74,7 +87,6 @@ app.get('/api/r-completadas', (req,res) => {
 })
 
 app.get('/llenar', (req, res) =>{
-    console.log('so you want to write a task')
     const {titulo} = req.query
     const LLENAR_LISTA = 
     `INSERT INTO tarea (titulo,id_estado,fecha_creacion) VALUES ('${titulo}',"en proceso",NOW());`
@@ -100,7 +112,7 @@ app.get('/completar', (req, res) => {
     })
 })
 
-app.get('/borrar', (req, res, next) => {
+app.get('/borrar',  cors(), (req, res, next) => {
     const {id_tarea} = req.query
     const BORRAR_TAREA = `DELETE FROM tarea WHERE id_tarea = ${id_tarea}`
     conexion.query(BORRAR_TAREA), (err, result) => {
